@@ -4,7 +4,7 @@
             <!-- Logo Start -->
             <div class="logo">
                 <a href="index.html" class="link">
-                    <img src="{{url('assets/images/site_data/'.$data['logo-main'])}}" alt="Logo">
+                    <img src="<?php echo e(url('assets/images/site_data/'.$data['logo-main'])); ?>" alt="Logo">
                 </a>
             </div>
             <!-- Logo End  -->
@@ -14,9 +14,9 @@
                 <div class="search-category d-flex h-48 select-border-end-0 radius-end-0 search-form d-sm-flex d-none">
                     <select class="js-example-basic-single border border-gray-200 border-end-0" name="state">
                         <option value="1"    >Tüm Kategoriler</option>
-                        @foreach($categories as $cat)
-                        <option value="1">{{$cat['name']}}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="1"><?php echo e($cat['name']); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
     
                     <div class="search-form__wrapper position-relative">
@@ -24,7 +24,7 @@
                         <button type="submit" class="w-32 h-32 bg-main-600 rounded-circle flex-center text-xl text-white position-absolute top-50 translate-middle-y inset-inline-end-0 me-8"><i class="ph ph-magnifying-glass"></i></button>
                     </div>
                 </div>
-               @if(false)
+               <?php if(false): ?>
                 <div class="location-box bg-white flex-align gap-8 py-6 px-16 rounded-pill border border-gray-100">
                     <span class="text-gray-900 text-xl d-xs-flex d-none"><i class="ph ph-map-pin"></i></span>
                     <div class="line-height-1">
@@ -32,15 +32,15 @@
                         <div class="line-height-1">
                             <select class="js-example-basic-single border border-gray-200 border-end-0" name="city">
                                 <option value="0">Seçiniz</option>
-                                @foreach($cities as $city)
-                                <option value="{{$city['id']}}">{{$city['name']}}</option>
-                                @endforeach
+                                <?php $__currentLoopData = $cities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $city): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($city['id']); ?>"><?php echo e($city['name']); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                           
                             </select>
                         </div>
                     </div>
                 </div>
-                 @endif
+                 <?php endif; ?>
             </form>
             <!-- form location start -->
              
@@ -73,4 +73,4 @@
             <!-- Header Middle Right End  -->
         </nav>
     </div>
-</header>
+</header><?php /**PATH /home/vagrant/code/caleg/resources/views/marketpro/partials/middle_header.blade.php ENDPATH**/ ?>

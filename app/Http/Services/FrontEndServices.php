@@ -1,65 +1,97 @@
 <?php
 
 namespace App\Http\Services;
-
-use App\Models\Settings;
-use Illuminate\Support\Facades\Cache;
 use App\Models\Category;
-use App\Models\Pages;
+use App\Models\Products;
+use App\Models\User;
+use App\Traits\CapthaTrait;
+use Intervention\Image\Facades\Image;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Helpers\GeneralHelper;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
-// use App\Models\Category;
-// use App\Models\Product;
-// use App\Models\User;
-// use App\Traits\CapthaTrait;
-// use Intervention\Image\Facades\Image;
-// use Illuminate\Http\Request;
-// use App\Http\Controllers\Helpers\GeneralHelper;
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Log;
 class FrontEndServices
 {
 
-    public function getSettings(){
+    use CapthaTrait;
+    private $allowed_array = ['jpg', 'jpeg','png'];
 
-        $data = Cache::get('publicdata');
-        if(empty($data)){
-                // $data['settings']['General_Settings']  =  (object) json_decode(Settings::find(1) , true);//Settings::find(1);
-                // $data['settings']['Front_Settings']  =  (object) json_decode(Settings::find(2) , true);//Settings::find(1);
-                // $data['settings']['Mail_Settings']  =  (object) json_decode(Settings::find(3) , true);//Settings::find(1);
-                // $data['settings']['Seo_Settings']  =  (object) json_decode(Settings::find(4) , true);//Settings::find(1);
-                // $data['settings']['Home_Settings']  =  (object) json_decode(Settings::find(5) , true);//Settings::find(1);
-                // $data['settings']['Footer_Settings']  =  (object) json_decode(Settings::find(6) , true);//Settings::find(1);
+ 
+    public function getCategories()
+    {
 
-
-                $data['General_Settings']  =  (object) json_decode(  Settings::where('id', '=', 1)->pluck('value')->first(),  true);//S
-                $data['Front_Settings']  =  (object) json_decode(  Settings::where('id', '=', 2)->pluck('value')->first(),  true);//S
-                $data['Mail_Settings']  =  (object) json_decode(  Settings::where('id', '=', 3)->pluck('value')->first(),  true);//S
-                $data['Seo_Settings']  =  (object) json_decode(  Settings::where('id', '=', 4)->pluck('value')->first(),  true);//S
-                $data['Home_Settings']  =  (object) json_decode(  Settings::where('id', '=', 5)->pluck('value')->first(),  true);//S
-                $data['Footer_Settings']  =  (object) json_decode(  Settings::where('id', '=', 6)->pluck('value')->first(),  true);//S
-                $data['Categories'] = (object) json_decode(Category::select('id','name','slug')->where('status','=',1)->get());
-                $data['Pages'] = (object) json_decode(Pages::where('status','=',1)->get());
-                Log::channel('data_check')->info($data);
-                // $data['settings']['General_Settings']  =   Settings::find(1);  //Settings::find(1);
-                // $data['settings']['Front_Settings']  =   Settings::find(2);
-                // $data['settings']['Mail_Settings']  =     Settings::find(3);
-                // $data['settings']['Seo_Settings']  =    Settings::find(4);
-                // $data['settings']['Home_Settings']  =   Settings::find(5);
-                // $data['settings']['Footer_Settings']  =   Settings::find(6);
-
-        // $this->Front_Settings = (object) json_decode($this->public_data['settings']->find(2)->value, true);
-        // $this->Mail_Settings = (object) json_decode($this->public_data['settings']->find(3)->value, true);
-        // $this->Seo_Settings = (object) json_decode($this->public_data['settings']->find(4)->value, true);
-        // $this->Home_Settings = (object) json_decode($this->public_data['settings']->find(5)->value, true);
-        // $this->Footer_Settings = (object) json_decode($this->public_data['settings']->find(6)->value, true);
-        // $this->pages = (object) $this->public_data['pages'];
-        // $this->categories = $this->public_data['categories'];
-        // $this->products = $this->public_data['products'];
-            Cache::put('publicdata',$data,60*24*365);
-        }
-
-        return $data;
+        
+        return Category::with('subcategory')->where('parent_id','=',0)
+        ->where('type','=','product')
+        ->orderBy('rank')->get();
     }
 
+    public function blogCategories()
+    {
+       
+        return Category::with('subcategory')->where('parent_id','=',0)
+        ->where('type','=','blog')
+        ->orderBy('rank')->get();
+    }
+
+    public function popularCategories(){
+        $categories = Category::where('type', 'product')
+        ->where('product_count','>',0)
+        ->orderBy('product_count', 'DESC')
+        ->limit(8)
+        ->get();
+
+    // Attach the parent tree to each category
+    foreach ($categories as $category) {
+        $category->parent_tree = $category->parentTree();
+    }
+
+    return $categories;
+    }
+
+    public function pick_items($count = 4){
+        return Products::inRandomOrder()->take($count)->get();
+    }
+
+    public function generateUserCode(){
+        $ch=true;
+        while($ch){
+            $token = rand(100000,999999);
+            $user = User::where('user_code','=',$token)->first();
+            $ch = (!empty($user))?true:false;
+        }
+        return $token;
+    }
+    
+    public function create_avatar(Request $request){
+        $user = User::where('user_code','=',Session::get('user_code'))->first();
+          
+        $avatar = $user['avatar'];
+        $file = $request->file('avatar');
+       
+        if ($request->hasFile('avatar')) {
+          
+            $ext = GeneralHelper::findExtension($file->getClientOriginalName());
+            if (in_array($ext, $this->allowed_array)) {
+            $path = public_path("files/users/" .  $user['id'] );
+            $filename = GeneralHelper::fixName($request['name']) . "_" . date('YmdHis') . "." . GeneralHelper::findExtension($file->getClientOriginalName());
+            $file->move($path, $filename);
+           
+            $path = public_path("files/users/" .$user['id']. "/" . $filename);
+
+
+           $resizedImage = Image::make($path)->resize(200, null, function ($constraint) {
+               $constraint->aspectRatio();
+           });
+           $resizedImage->save(public_path("files/users/" .$user['id'].  "/200h".$filename));
+           $resizedImage = Image::make($path)->resize(500,500, function ($constraint) {
+             $constraint->aspectRatio();
+         });
+           $avatar = $filename;
+           }
+
+      }
+      return $avatar;
+    }
 }

@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Page extends Model
+class Newsletter extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'pages';
-    protected $fillable = ['title','slug','content','location','image','rank'];
+    protected $table = 'newsletters';
+    protected $fillable = ['email','code'];
 }

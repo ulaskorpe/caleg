@@ -2728,4 +2728,4 @@
         </div>
     </section>
     <!-- ========================= Recommended End ================================ -->
-    
+    <?php /**PATH /home/vagrant/code/caleg/resources/views/marketpro/partials/index/recommended.blade.php ENDPATH**/ ?>

@@ -19,7 +19,7 @@
                             <!-- Logo Start -->
                             <div class="logo px-16 d-lg-none d-block">
                                 <a href="index.html" class="link"> 
-                                    <img src="{{url('assets/images/logo/logo.png')}}" alt="logo">
+                                    <img src="<?php echo e(url('assets/images/logo/logo.png')); ?>" alt="logo">
                                     
                                 </a>
                             </div>
@@ -350,4 +350,4 @@
             </nav>
         </div>
     </header>
-    <!-- ==================== Header End Here ==================== -->
+    <!-- ==================== Header End Here ==================== --><?php /**PATH /home/vagrant/code/caleg/resources/views/marketpro/partials/header.blade.php ENDPATH**/ ?>

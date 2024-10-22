@@ -18,39 +18,39 @@
                         <span class="icon text-md d-flex"> <i class="ph ph-user-circle"></i> </span> 
                         <span class="hover-text-decoration-underline">Hesabım</span>
                      </a>
-                     <form class="form" id="logout-form" name="logout-form" action="{{ route('logout_user') }}"
+                     <form class="form" id="logout-form" name="logout-form" action="<?php echo e(route('logout_user')); ?>"
                      method="post" enctype="multipart/form-data">
-                     <input type="hidden" name="_token" id="_token" value="{{ csrf_token() }}">
+                     <input type="hidden" name="_token" id="_token" value="<?php echo e(csrf_token()); ?>">
                      
                      </form>
                     <ul class="on-hover-dropdown common-dropdown common-dropdown--sm max-h-200 scroll-sm px-0 py-8">
-                        @if(Auth::id())
+                        <?php if(Auth::id()): ?>
                         <li class="nav-submenu__item">
                             <a href="#" onclick="logoutfx()" class="nav-submenu__link hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"> 
                                  
                                Çıkış
                             </a>
                         </li>
-                        @else
+                        <?php else: ?>
                         <li class="nav-submenu__item">
-                            <a href="{{route('user-login')}}" class="nav-submenu__link hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"> 
+                            <a href="<?php echo e(route('user-login')); ?>" class="nav-submenu__link hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"> 
                                 
                                 Kullanıcı Girişi
                             </a>
                         </li>
                         <li class="nav-submenu__item">
-                            <a href="{{route('user-register')}}" class="nav-submenu__link hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"> 
+                            <a href="<?php echo e(route('user-register')); ?>" class="nav-submenu__link hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"> 
                                  
                                Kayıt Ol
                             </a>
                         </li>
                         <li class="nav-submenu__item">
-                            <a href="{{route('user-forget-pw')}}" class="nav-submenu__link hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"> 
+                            <a href="<?php echo e(route('user-forget-pw')); ?>" class="nav-submenu__link hover-bg-gray-100 text-gray-500 text-xs py-6 px-16 flex-align gap-8 rounded-0"> 
                                  
                               Şifremi Unuttum
                             </a>
                         </li>
-                        @endif
+                        <?php endif; ?>
                     </ul>
                 </li>
                 <!--
@@ -165,4 +165,4 @@
             </ul>
         </div>
     </div>
-</div>
+</div><?php /**PATH /home/vagrant/code/caleg/resources/views/marketpro/partials/middle_top.blade.php ENDPATH**/ ?>

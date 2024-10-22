@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
+ use App\Http\Controllers\UserController;
 
 require __DIR__ . '/admin.php';
-require __DIR__ . '/user.php';
+//require __DIR__ . '/user.php';
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,10 +16,25 @@ require __DIR__ . '/user.php';
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+
+ Route::get('/check-email/{email}',[UserController::class, 'email_check'])->name('email-user-check');
+ Route::get('/email-exists/{email}',[UserController::class, 'email_exists'])->name('email-exists-check');
+// Route::get('/check-username/{username}',[UserController::class, 'username_check'])->name('username-check');
+// Route::get('/check-phone/{phone_number}',[UserController::class, 'phone_check'])->name('phone-check');
+ Route::post('/register_user',[UserController::class, 'register_user'])->name('register_user');
+ Route::post('/login_user',[UserController::class, 'login_user'])->name('login_user');
+ Route::post('/logout_user',[UserController::class, 'logout'])->name('logout_user');
+ Route::post('/forget-pw-post',[UserController::class, 'forget_pw_post'])->name('forget_pw_post');
+ Route::post('/newsletter-post',[UserController::class, 'newsletter_post'])->name('newsletter_post');
+
 Route::group(['middleware' => 'siteData' ], function () {
-
-
-
+    Route::get('/confirm/{token?}',[UserController::class, 'confirm_user'])->name('confirm_user');
+    Route::get('/giris',[ UserController::class, 'login'])->name('user-login');
+     Route::get('/kayit-ol',[ UserController::class, 'register'])->name('user-register');
+     Route::get('/sifremi-unuttum',[UserController::class, 'forget_password'])->name('user-forget-pw');
+  
 // PAGES
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/data', [App\Http\Controllers\HomeController::class, 'data'])->name('data');

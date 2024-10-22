@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="tr" class="">
-@include("marketpro.partials.head")
+<?php echo $__env->make("marketpro.partials.head", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <body>
     
 <!--==================== Preloader Start ====================-->
   <div class="preloader">
-    <img src="{{url('assets/images/site_data/'.$data['preloader-gif'])}}" alt="">
+    <img src="<?php echo e(url('assets/images/site_data/'.$data['preloader-gif'])); ?>" alt="">
   </div>
 <!--==================== Preloader End ====================-->
 
@@ -47,7 +47,7 @@
     <div class="mobile-menu__inner">
         <a href="index.html" class="mobile-menu__logo">
             
-            <img src="{{url('assets/images/logo/logo.png')}}" alt="logo">
+            <img src="<?php echo e(url('assets/images/logo/logo.png')); ?>" alt="logo">
         </a>
         <div class="mobile-menu__menu">
             <!-- Nav Menu Start -->
@@ -126,19 +126,19 @@
 <!-- ==================== Mobile Menu End Here ==================== -->
 
  
-@include("marketpro.partials.middle_top")
-@include("marketpro.partials.middle_header")
-@include("marketpro.partials.header")
+<?php echo $__env->make("marketpro.partials.middle_top", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make("marketpro.partials.middle_header", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make("marketpro.partials.header", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     
     <!-- ============================ Banner Section start =============================== -->
-@yield('content')
+<?php echo $__env->yieldContent('content'); ?>
 <!-- ============================ Banner Section End =============================== -->
 
  
 
 
  
-@include("marketpro.partials.footer")
+<?php echo $__env->make("marketpro.partials.footer", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
 
@@ -150,43 +150,25 @@
 
 
     <!-- Jquery js -->
-    <script src="{{url('assets/js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{url('assets/js/boostrap.bundle.min.js')}}"></script>
-    <script src="{{url('assets/js/phosphor-icon.js')}}"></script>
-    <script src="{{url('assets/js/select2.min.js')}}"></script>
-    <script src="{{url('assets/js/slick.min.js')}}"></script>
-    <script src="{{url('assets/js/count-down.js')}}"></script>
-    <script src="{{url('assets/js/jquery-ui.js')}}"></script>
-    <script src="{{url('assets/js/wow.min.js')}}"></script>
-    <script src="{{url('assets/js/aos.js')}}"></script>
-    <script src="{{url('assets/js/marque.min.js')}}"></script>
-    <script src="{{url('assets/js/vanilla-tilt.min.js')}}"></script>
+    <script src="<?php echo e(url('assets/js/jquery-3.7.1.min.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/boostrap.bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/phosphor-icon.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/select2.min.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/slick.min.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/count-down.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/jquery-ui.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/wow.min.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/aos.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/marque.min.js')); ?>"></script>
+    <script src="<?php echo e(url('assets/js/vanilla-tilt.min.js')); ?>"></script>
     
     <!-- Bootstrap Bundle Js -->
-    {{-- <script src="assets/js/boostrap.bundle.min.js"></script>
-    <!-- Bootstrap Bundle Js -->
-    <script src="assets/js/phosphor-icon.js"></script>
-    <!-- Select 2 -->
-    <script src="assets/js/select2.min.js"></script>
-    <!-- Slick js -->
-    <script src="assets/js/slick.min.js"></script>
-    <!-- Slick js -->
-    <script src="assets/js/count-down.js"></script>
-    <!-- jquery UI js -->
-    <script src="assets/js/jquery-ui.js"></script>
-    <!-- wow js -->
-    <script src="assets/js/wow.min.js"></script>
-    <!-- AOS Animation -->
-    <script src="assets/js/aos.js"></script>
-    <!-- marque -->
-    <script src="assets/js/marque.min.js"></script>
-    <!-- marque -->
-    <script src="assets/js/vanilla-tilt.min.js"></script> --}}
+    
     <!-- main js -->
     <script src="http://ionden.com/a/plugins/ion.rangeSlider/static/js/ion-rangeSlider/ion.rangeSlider.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{{url('assets/js/main.js')}}"></script>
+    <script src="<?php echo e(url('assets/js/main.js')); ?>"></script>
 
     <script>
 
@@ -211,7 +193,7 @@ function logoutfx(){
 
         </script>
 
-     @yield('scripts')
+     <?php echo $__env->yieldContent('scripts'); ?>
 
     </body>
-</html>
+</html><?php /**PATH /home/vagrant/code/caleg/resources/views/marketpro/main_layout.blade.php ENDPATH**/ ?>

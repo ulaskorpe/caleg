@@ -23,7 +23,7 @@ class ProductsController extends AdminController
     use HttpResponses;
 
     private $location_array = [
-        'top_slider','promotional','160x160',
+        'top_slider','promotional','160x160','recommended','best_sells','organic','new_arrival'
     ];
     private $service ;
     public function __construct(ProductServices $service){

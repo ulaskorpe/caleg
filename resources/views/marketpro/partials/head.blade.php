@@ -5,12 +5,18 @@
     <!-- Title -->
     <title> MarketPro - E-commerce HTML Template</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/images/logo/favicon.png">
+    <link rel="shortcut icon" href="{{url('assets/images/logo/favicon.png')}} ">
  
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!-- select 2 -->
+    <link rel="stylesheet" href="{{url('assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/slick.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/jquery-ui.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/animate.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/aos.css')}}">
+   
+    {{-- <!-- select 2 -->
     <link rel="stylesheet" href="assets/css/select2.min.css">
     <!-- Slick -->
     <link rel="stylesheet" href="assets/css/slick.css">
@@ -20,8 +26,8 @@
     <link rel="stylesheet" href="assets/css/animate.css">
     <!-- AOS Animation -->
     <link rel="stylesheet" href="assets/css/aos.css">
-    <!-- Main css -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <!-- Main css --> --}}
+    <link rel="stylesheet" href="{{url('assets/css/main.css')}}">
 
 
     

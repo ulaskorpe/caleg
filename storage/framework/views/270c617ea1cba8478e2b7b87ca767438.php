@@ -2,12 +2,12 @@
     
 <!-- ==================== Footer Start Here ==================== -->
 <footer class="footer py-120">
-    <img src="{{url('assets/images/bg/body-bottom-bg.png')}}" alt="BG" class="body-bottom-bg">
+    <img src="<?php echo e(url('assets/images/bg/body-bottom-bg.png')); ?>" alt="BG" class="body-bottom-bg">
     <div class="container container-lg">
         <div class="footer-item-wrapper d-flex align-items-start flex-wrap">
             <div class="footer-item" data-aos="fade-up" data-aos-duration="200">
                 <div class="footer-item__logo">
-                    <a href="index.html"> <img src="{{url('assets/images/logo/logo.png')}}" alt=""></a>
+                    <a href="index.html"> <img src="<?php echo e(url('assets/images/logo/logo.png')); ?>" alt=""></a>
                 </div>
                 <p class="mb-24">We're Grocery Shop, an innovative team of food supliers.</p>
                 <div class="flex-align gap-16 mb-16">
@@ -129,47 +129,47 @@
                 <p class="mb-16">Marketpro App is available.  Get it now</p>
                 <div class="flex-align gap-8 my-32">
                     <a href="https://www.apple.com/store" class="">
-                        <img src="{{url('assets/images/site_data/'.$data['footer-logo-1'])}}" alt="">
+                        <img src="<?php echo e(url('assets/images/site_data/'.$data['footer-logo-1'])); ?>" alt="">
                     </a>
                     <a href="https://play.google.com/store/apps?hl=en" class="">
-                        <img src="{{url('assets/images/site_data/'.$data['footer-logo-2'])}}" alt="">
+                        <img src="<?php echo e(url('assets/images/site_data/'.$data['footer-logo-2'])); ?>" alt="">
                     </a>
                 </div>
 
                 <ul class="flex-align gap-16">
 
-@if(!empty($data['facebook']))
+<?php if(!empty($data['facebook'])): ?>
                     <li>
       
-        <a href="{{$data['facebook']}}" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
+        <a href="<?php echo e($data['facebook']); ?>" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
             <i class="ph-fill ph-facebook-logo"></i>
         </a>
        
     </li>
-    @endif
-    @if(!empty($data['twitter']))
+    <?php endif; ?>
+    <?php if(!empty($data['twitter'])): ?>
     <li>
       
-        <a href="{{$data['twitter']}}" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
+        <a href="<?php echo e($data['twitter']); ?>" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
             <i class="ph-fill ph-twitter-logo"></i>
         </a>
     </li> 
-     @endif
+     <?php endif; ?>
 
-    @if(!empty($data['instagram']))
+    <?php if(!empty($data['instagram'])): ?>
     <li>
-        <a href="{{$data['instagram']}}" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
+        <a href="<?php echo e($data['instagram']); ?>" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
             <i class="ph-fill ph-instagram-logo"></i>
         </a>
     </li>
-    @endif
-    @if(!empty($data['linkedin']))
+    <?php endif; ?>
+    <?php if(!empty($data['linkedin'])): ?>
     <li>
-        <a href="{{$data['linkedin']}}" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
+        <a href="<?php echo e($data['linkedin']); ?>" class="w-44 h-44 flex-center bg-main-100 text-main-600 text-xl rounded-circle hover-bg-main-600 hover-text-white">
             <i class="ph-fill ph-linkedin-logo"></i>
         </a>
     </li>
-    @endif
+    <?php endif; ?>
 </ul>
             </div>
         </div>
@@ -180,10 +180,10 @@
 <div class="bottom-footer bg-color-one py-8">
     <div class="container container-lg">
         <div class="bottom-footer__inner flex-between flex-wrap gap-16 py-16">
-            <p class="bottom-footer__text " data-aos="fade-right" data-aos-duration="800">{{$data['all-rights']}}</p>
+            <p class="bottom-footer__text " data-aos="fade-right" data-aos-duration="800"><?php echo e($data['all-rights']); ?></p>
             <div class="flex-align gap-8 flex-wrap" data-aos="fade-left" data-aos-duration="800">
                 <span class="text-heading text-sm">Ödeme Yönetmleri</span>
-                <img src="{{url('assets/images/site_data/'.$data['payment-logo'])}}" alt="">
+                <img src="<?php echo e(url('assets/images/site_data/'.$data['payment-logo'])); ?>" alt="">
                 
             </div>
         </div>
@@ -191,3 +191,4 @@
 </div>
 <!-- ==================== Footer End Here ==================== -->
   
+<?php /**PATH /home/vagrant/code/caleg/resources/views/marketpro/partials/footer.blade.php ENDPATH**/ ?>

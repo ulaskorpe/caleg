@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Products;
 use App\Models\Settings;
 use App\Models\Slider;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use App\Observers\ProductObserver;
 use App\Observers\SliderObserver;
+use App\Observers\UserObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
         Slider::observe(SliderObserver::class);
         Products::observe(ProductObserver::class);
+        User::observe(UserObserver::class);
         /** This line for solving centos server problem of max key length */
         Schema::defaultStringLength(191);
         /** End problem of max key length solution */
