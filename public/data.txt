@@ -1,0 +1,104 @@
+Front_Settings
+{#1461 ▼ // resources/views/myview.blade.php
+  +"header_logo": "1703274605JhT8MfGD.jpg"
+  +"footer_logo": "logo.png"
+  +"favicon": "1703274685t6gYmebZ.png"
+  +"main_color": "#F7B900"
+  +"shopimg": "170327595326Iu6Udr.jpg"
+  +"second_main_color": "#000288"
+  +"footer_contact_info_color": "#282828"
+  +"footer_contact_info_hover_color": "#F9F9F7"
+}
+
+General_settings
+{#1460 ▼ // resources/views/myview.blade.php
+  +"site_name": "Güvenlik Tabelalari"
+  +"site_desciption": "site_description"
+  +"site_link": "guvenliktabelalari.com"
+  +"site_https": 0
+  +"email": "info@guvenliktabelalari.com"
+  +"phone": "+90 545 351 81 34"
+  +"google_location": null
+  +"contact_email": null
+  +"shipping_price": "0"
+  +"address": "Cevizlik Mah. İstanbul Cad. Akın 3 İşhanı kat: 4 NO: 30/15 Bakırköy / İstanbul"
+}
+
+mail_settings
+{#1465 ▼ // resources/views/myview.blade.php
+  +"smtp": array:7 [▼
+    "smtp_host" => "mail.laravel.com"
+    "smtp_port" => "1025"
+    "smtp_username" => null
+    "smtp_password" => null
+    "smtp_encryption" => null
+    "smtp_from_email" => "laravel@example.com"
+    "smtp_from_name" => null
+  ]
+}
+
+
+seo_settings
+{#1467 ▼ // resources/views/myview.blade.php
+  +"meta_tags": "tags,tag1,tag2"
+  +"meta_description": "meta_description"
+}
+Footer_Settings
+{#1471 ▼ // resources/views/myview.blade.php
+  +"status": true
+  +"twitter_link": "#"
+  +"instagram_link": "#"
+  +"facebook_link": "#"
+  +"youtube_link": "#"
+  +"linkedin_link": "#"
+  +"whatsapp_link": "#"
+  +"telegram_link": "#"
+  +"tumblr_link": "#"
+  +"pinterest_link": "#"
+  +"footer_text": "
+<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Distinctio culpa natus doloribus atque corporis? Et nihil, necessitatibus debitis dolores autem eos
+ ▶
+"
+}
+
+
+home-seo_settings    ---- todo : this hastobe service
+{#1469 ▼ // resources/views/myview.blade.php
+  +"slider": array:2 [▼
+    "status" => true
+    "content" => array:1 [▶]
+  ]
+  +"cards": array:2 [▼
+    "status" => true
+    "content" => array:3 [▼
+      0 => array:3 [▼
+        "product_id" => "1"
+        "button_link" => "#"
+        "button_text" => "Daha Fazlası..."
+      ]
+      1 => array:3 [▼
+        "product_id" => "1"
+        "button_link" => "#"
+        "button_text" => "Daha Fazlası..."
+      ]
+      2 => array:3 [▶]
+    ]
+  ]
+  +"services": array:2 [▼
+    "status" => true
+    "content" => array:3 [▶]
+  ]
+  +"highlights": array:2 [▼
+    "status" => true
+    "content" => array:6 [▼
+      0 => array:1 [▶]
+      1 => array:1 [▶]
+      2 => array:1 [▶]
+      3 => array:1 [▶]
+      4 => array:1 [▶]
+      5 => array:1 [▶]
+    ]
+  ]
+  +"comments": array:2 [▶]
+  +"bottom_slider": array:2 [▶]
+}

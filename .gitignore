@@ -1,0 +1,7 @@
+/storage/*.key
+.env
+/.fleet
+/.idea
+/.vscode
+/vendor
+/public/assets/products
