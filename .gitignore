@@ -5,3 +5,6 @@
 /.vscode
 /vendor
 /public/assets/products
+/public/__assets
+/public/test
+/public/catalog
