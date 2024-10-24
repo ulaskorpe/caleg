@@ -22,7 +22,15 @@ class Products extends Model
     //     return $this->belongsToMany(Category::class, 'category', 'id', 'category_id');
     // }
 
+    public function materials()
+    {
+        return $this->belongsToMany(Material::class, 'product_material', 'product_id', 'material_id');
+    }
 
+    public function locations()
+    {
+        return $this->belongsToMany(Material::class, 'product_location', 'product_id', 'location_id');
+    }
     public function images(){
         return $this->hasMany(ProductImage::class,'product_id');
     }

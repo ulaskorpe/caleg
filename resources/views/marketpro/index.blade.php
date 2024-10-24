@@ -6,6 +6,15 @@
  @include("marketpro.partials.index.banner_slider")
 
 
+
+    @foreach($locations as $location)
+    @include("marketpro.partials.index.".$location['name'])
+    @endforeach
+
+    @if(false)
+
+   
+        
     @include("marketpro.partials.index.top_slider")
     
     @include("marketpro.partials.index.promotional")
@@ -15,14 +24,6 @@
     @include("marketpro.partials.index.new_arrivals")
 
     @include("marketpro.partials.index.news_letter")
-    @if(false)
-    <!-- ======================== promotional banner Start ============================== -->
-
-    <!-- ======================== promotional banner End ============================== -->
-      
-   
-   
-    
     @include("marketpro.partials.index.flash_sales_today")
     @include("marketpro.partials.index.top_vendors")
     @include("marketpro.partials.index.best_sells")

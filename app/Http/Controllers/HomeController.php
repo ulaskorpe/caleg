@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\SendMail;
 use App\Models\Category;
+use App\Models\Location;
 use App\Models\Products;
 use App\Models\Sizes;
 use App\Models\Types;
@@ -31,8 +32,12 @@ class HomeController extends Controller
 
 
     public function index(){
+            $locations = Location::with('products','products.categories')->orderBy('rank')->where('show','=',1)->get();
 
-        return view("marketpro.index",[
+
+           
+
+        return view("marketpro.index",['locations'=>$locations,
             'sliders'=>Slider::where('location','=','top')->orderBy('order')->get(),
             'bottom_sliders'=>Slider::where('location','=','bottom')->orderBy('order')->get(),
         

@@ -11,29 +11,33 @@
                 </button>
             </div>
             <div class="feature-item-wrapper">
-                @php
-                    $time = 400;
-                @endphp
-                @for($i=0;$i<10;$i++)
+                @php  
+                    $time= 200;
+                @endphp 
+            @foreach($location->products()->get() as $product)
                 <div class="feature-item text-center wow bounceIn" data-aos="fade-up" data-aos-duration="{{$time}}">
                     <div class="feature-item__thumb rounded-circle">
-                        <a href="shop.html" class="w-100 h-100 flex-center">
-                            <img src="assets/images/thumbs/feature-img1.png" alt="">
+                        <a href="{{route('product-detail',[$product['slug'],$product['id']])}}" class="w-100 h-100 flex-center">
+                            <img src="{{url('assets/products/'.$product["slug"].'/'.$product["photo"])}}" alt="{{$product['name']}}">
                         </a>
                     </div>
                     <div class="feature-item__content mt-16">
-                        <h6 class="text-lg mb-8"><a href="shop.html" class="text-inherit">Vegetables</a></h6>
-                        <span class="text-sm text-gray-400">125+ Products</span>
+                        <h6 class="text-lg mb-8"><a href="shop.html" class="text-inherit">{{$product['name']}}</a></h6>
+                        <span class="text-sm text-gray-400">{{$product['price']}}TL</span>
                     </div>
                 </div>
-                @php
-                    $time += 200;
-                @endphp
-                @endfor
+                
+                @php  
+                $time+= 200;
+            @endphp 
+
+                @endforeach
+
+                
 
 
-                @if(false)
-                <div class="feature-item text-center wow bounceIn" data-aos="fade-up" data-aos-duration="600">
+               
+                {{-- <div class="feature-item text-center wow bounceIn" data-aos="fade-up" data-aos-duration="600">
                     <div class="feature-item__thumb rounded-circle">
                         <a href="shop.html" class="w-100 h-100 flex-center">
                             <img src="assets/images/thumbs/feature-img2.png" alt="">
@@ -142,8 +146,8 @@
                         <h6 class="text-lg mb-8"><a href="shop.html" class="text-inherit">Frozen Foods</a></h6>
                         <span class="text-sm text-gray-400">125+ Products</span>
                     </div>
-                </div>
-                @endif
+                </div> --}}
+                
             </div>
         </div>
     </div>

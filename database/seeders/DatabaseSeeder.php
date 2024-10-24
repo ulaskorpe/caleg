@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             // PagesSettings::class,
             // FooterSettings::class,
           // TypeSeeder::class
+        //  MaterialSeeder::class
+          LocationSeeder::class
         ]);
     }
 }

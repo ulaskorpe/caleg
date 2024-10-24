@@ -111,6 +111,10 @@
                             <a href="{{ route('admin.general.settings') }}"
                                 class="nav-link">{{ __('General Information') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.general.locations') }}"
+                                class="nav-link">{{ __('Locations') }}</a>
+                        </li>
                     </ul>
                 </div>
             </li>

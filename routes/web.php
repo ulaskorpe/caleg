@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
  use App\Http\Controllers\UserController;
@@ -34,6 +35,7 @@ Route::group(['middleware' => 'siteData' ], function () {
     Route::get('/giris',[ UserController::class, 'login'])->name('user-login');
      Route::get('/kayit-ol',[ UserController::class, 'register'])->name('user-register');
      Route::get('/sifremi-unuttum',[UserController::class, 'forget_password'])->name('user-forget-pw');
+     Route::get('/product/{slug}/{id}',[ProductController::class, 'product_detail'])->name('product-detail');
   
 // PAGES
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

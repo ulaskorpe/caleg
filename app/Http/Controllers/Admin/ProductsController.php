@@ -22,9 +22,7 @@ class ProductsController extends AdminController
 
     use HttpResponses;
 
-    private $location_array = [
-        'top_slider','promotional','160x160','recommended','best_sells','organic','new_arrival'
-    ];
+
     private $service ;
     public function __construct(ProductServices $service){
         $this->service =  $service;
@@ -434,7 +432,7 @@ class ProductsController extends AdminController
             $data['product'] = Products::where('slug', $product_slug)->first();
 
 
-            $product_location = SiteLocation::where('product_id','=',$data['product']['id'])->first();
+         //   $product_location = SiteLocation::where('product_id','=',$data['product']['id'])->first();
 
                 $data['selected_location']=((!empty($product_location)))?$product_location['location']:'';
 

@@ -106,8 +106,7 @@
 				});
 			}
 
-		</script>
-		<script>
+	 
 
 			$.ajaxSetup({
 				headers: {

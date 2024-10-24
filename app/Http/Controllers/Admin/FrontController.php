@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\FailedJobs;
+use App\Models\Location;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use App\Models\Slider;
@@ -28,6 +29,100 @@ class FrontController extends AdminController
         return view('admin.settings.front', ['products'=>Products::select('id','name')->get()]);
     }
 
+    public function generalSettings()
+    {
+      //  $data['generalset'] = $this->General_Settings;
+        return view('admin.settings.webGeneral', []);
+    }
+
+    public function generalLocationsList($page=0){
+
+ 
+
+        //$per_page= 100;
+   
+        $locations = Location::where('id','>',0)->orderBy('rank') ;
+       
+        $locations_count  = $locations->count();
+
+       // $locations =  $locations->skip($per_page*$page)->limit(10)->orderBy('created_at','DESC')->get();
+
+      //  $page_count  = ceil($setting_count/$per_page);
+
+        $data = ['locations'=>$locations->get(),'locations_count'=>$locations_count];
+
+        return  view('admin.settings.locations_list',$data);
+    }
+
+
+    public function generalLocations()
+    {
+      //  $data['generalset'] = $this->General_Settings;
+        return view('admin.settings.locations', []);
+    }
+    public function locationShow($id){
+        $l = Location::find($id);
+        $l->show=($l['show']==1)?0:1;
+        $l->save();
+
+
+        return response()->json(['message'=>'visibility changed','status'=>'success']);
+    }
+
+    public function locationTitle($id,$title){
+        
+        $l = Location::find($id);
+        $l->title=$title;
+        $l->save();
+
+
+        return response()->json(['message'=>'title updated','status'=>'success']);
+    }
+
+    public function locationHasProducts($id){
+        $l = Location::find($id);
+        $l->has_products=($l['has_products']==1)?0:1;
+        $l->save();
+
+
+        return response()->json(['message'=>'has_products changed','status'=>'success']);
+    }
+
+    public function locationChangeRank($id,$rank){
+        $l = Location::find($id);
+
+        // if($l['rank'] > $rank){
+        //     Location ::where('id', '!=', $l['id'])
+        //            ->where('rank','<=',$l['rank'])
+        //            ->where('rank','>',$l['rank'])
+        //            ->increment('rank',1);
+        //    }else{
+              
+        //     Location ::where('id', '!=', $l['id'])
+        //               ->where('rank','>',$l['rank'])
+        //               ->where('rank','<=',$rank)
+          
+        //     ->decrement('rank',1);
+        //    }
+   
+
+           if($rank>$l['rank']){
+            Location::where('id', '!=', $l['id'])
+                ->where('rank','>',$l['rank'])
+                ->where('rank','<=',$rank)->decrement('rank',1);
+        }else{
+            Location::where('rank','<',$l['rank'])
+                ->where('rank','>=',$rank)
+                ->where('id', '!=', $l['id'])
+                ->increment('rank',1);
+        }  
+        $l->rank = $rank;
+        $l->save();
+        return response()->json("ok");
+
+
+    }
+    
     public function generalSettingsList($page=0){
 
         // for($i=0;$i<1000;$i++){
@@ -115,11 +210,6 @@ class FrontController extends AdminController
         return view('admin.settings.email.failedJobs' );
     }
 
-    public function generalSettings()
-    {
-      //  $data['generalset'] = $this->General_Settings;
-        return view('admin.settings.webGeneral', []);
-    }
 
     public function ChangeTheme()
     {

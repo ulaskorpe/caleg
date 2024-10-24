@@ -53,6 +53,14 @@ Route::group(['middleware' => $middlewares, 'prefix' => $prefix, 'as' => $define
 		Route::get('dashboard', 'dashboard')->name('dashboard');
 
 		Route::get('settings/web-settings/check-key/{key?}/{id?}', 'checkKey')->name('general.settings.check.key');
+		
+		Route::get('settings/web-settings/locations', 'generalLocations')->name('general.locations');
+		Route::get('settings/web-settings/locations/title/{id}/{title}', 'locationTitle')->name('general.locations.title');
+		Route::get('settings/web-settings/locations/show/{id}', 'locationShow')->name('general.locations.show');
+		Route::get('settings/web-settings/locations/has_products/{id}', 'locationHasProducts')->name('general.locations.has_products');
+		Route::get('settings/web-settings/locations/rank/{id}/{rank}', 'locationChangeRank')->name('general.locations.change_rank');
+		Route::get('settings/web-settings/locations-list', 'generalLocationsList')->name('general.locations.list');
+		
 		Route::get('settings/web-settings/general', 'generalSettings')->name('general.settings');
 		Route::get('settings/web-settings/general-list/{page?}', 'generalSettingsList')->name('general.settings.list');
 		Route::get('settings/web-settings/create-setting', 'createSetting')->name('general.settings.create');
