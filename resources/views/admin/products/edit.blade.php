@@ -30,28 +30,23 @@
                         <div class="card">
                             <div class="card-body">
 
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                  <a class="nav-link   active  " id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">Product Info</a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                  <a class="nav-link " id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Product Comments</a>
-                                </li>
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Info</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation"> 
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" onclick="show_comments()" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Comments</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" onclick="get_location(0,0)" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Locations</button>
+                                    </li>
+                                  </ul>
+                                  <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">@include("admin.products.product_update")</div>
+                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"><div id="product_locations"></div></div>
+                                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"><div id="comment_list"></div></div>
 
-                              </ul>
-                              <div class="tab-content pt-5" id="tab-content">
-                                <div class="tab-pane active " id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
-
-
-
-                                        @include("admin.products.product_update")
-                                </div>
-                                <div class="tab-pane " id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
-                                    <div id="product_comments"></div>
-                                </div>
-
-                              </div>
-
+                                  </div>
 
 
                         </div>
@@ -77,11 +72,34 @@
 
 
 $(function() {
-    console.log( "ready!" );
-     @if(!empty($product['photo']))
-     get_location();
-         @endif
+    
+  
 });
+
+function show_comments(){
+    $('#product_locations').hide();
+    $('#comment_list').show();
+    show_data('/admin/products/comments/{{$product['id']}}/0','comment_list');
+}
+
+function delete_from_location(location_id){
+            Swal.fire({
+            title: 'Remove product from location ?',
+
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet!',
+            cancelButtonText: 'Hayır'
+        }).then((result) => {
+            // If confirmed
+            if (result.isConfirmed) {
+               
+                get_location(location_id,0 )
+            }
+        });
+        }
 
 
 function delete_img(img){
@@ -120,11 +138,11 @@ function get_images(){
 }
 
 
-function get_location(loc='{{$product['location']}}' ){
-  //  let loc = ($('#location').val()!='' && ('#location').val()!='undefined')?$('#location').val():'{{$product['location']}}';
-   // console.log('/admin/products/locations/{{$product["id"]}}/'+loc );
-   // let location = (location =='')?'{{$selected_location}}':location
-    $.get('/admin/products/locations/{{$product["id"]}}/'+loc ,  // url
+function get_location(location_id=0,order=0 ){
+    $('#product_locations').show();
+    $('#comment_list').hide();
+    ///console.log('/admin/products/locations/{{$product["id"]}}/'+location_id+'/'+order );
+    $.get('/admin/products/locations/{{$product["id"]}}/'+location_id+'/'+order ,  // url
       function (data) {  // success callback
         $('#product_locations').html(data);
          // alert('status: ' + textStatus + ', data:' + data);
@@ -264,7 +282,17 @@ Swal.fire({
 error = true;
 return false;
 }
+if ($('#material_id').val() === null || $('#material_id').val().length === 0)  {
 
+$('#material_id').focus();
+Swal.fire({
+    icon: 'error',
+    text: 'ürün için material seçiniz'
+});
+
+error = true;
+return false;
+}
 
 if ($('#tinymceExample').val() =='') {
 

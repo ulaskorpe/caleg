@@ -7,6 +7,7 @@ use App\Models\Products;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Helpers\GeneralHelper;
+use App\Models\ProductLocation;
 use App\Models\Types;
 
 use Illuminate\Support\Facades\File;
@@ -26,27 +27,7 @@ class ProductServices{
             }
     }
 
-    private function set_order( $location ,$order ,Products $product){
-
-    }
-
-    private function site_location($location,$order,Products $product){
-        if($product['location']!='' && $location!=''){
-
-        }elseif($product['location']!='' && $location==''){
-
-
-        }elseif($product['location']!='' && $location==''){
-
-
-
-        }
-
-        $product->location = $location;
-        $product->order =$order ;
-        $product->save();
-
-    }
+ 
 
     public function create_photo(Request $request ,Products $product){
 
@@ -104,6 +85,7 @@ class ProductServices{
         $product->description = $request['description'];
         $product->category_id = implode(",",$request['category_id']);
         $product->type_id = implode(",",$request['type_id']);
+        $product->material_id = implode(",",$request['material_id']);
         $product->price = $request['price'];
         $product->thumbnail =(!empty($request['id']))?$product['thumbnail']:'';
         $product->photo =(!empty($request['id']))?$product['photo']:'';
@@ -116,13 +98,73 @@ class ProductServices{
         $product->save();
 
         $product->categories()->detach();
+        $product->materials()->detach();
         $product->types()->detach();
 
         $product->categories()->attach($request['category_id']);
         $product->types()->attach($request['type_id']);
+        $product->materials()->attach($request['material_id']);
 
          //   $this->site_location($request['location'],$request['order'],$product);
         return $product;
 
     }
+
+
+    //// locations 
+    public function order_location($product_id ,$location_id,$order){
+      //  echo "<br>PL::".$product_id."+++".$location_id.":::".$order;
+        $pl = ProductLocation::where('product_id','=',$product_id)->where('location_id','=',$location_id)->first();
+        if(empty($pl)){
+                $pl = new ProductLocation();
+                $pl->product_id = $product_id;
+                $pl->location_id = $location_id;
+                $pl->rank = $order;
+                $pl->save();
+
+                ProductLocation::where('location_id','=',$location_id)
+                                ->where('id','<>',$pl['id'])
+                                ->where('rank','>=',$order)
+                                ->increment('rank',1);
+        }else{
+
+            $old_rank = $pl['rank'];
+            $pl->rank = $order;
+            $pl->save();
+    
+            if($pl['rank'] > $old_rank){
+                ProductLocation ::where('id', '!=', $pl['id'])
+                    ->where('location_id','=',$location_id)
+                    ->where('rank','>',$old_rank)
+                    ->where('rank','<=',$pl['rank'])
+                    ->decrement('rank',1);
+            }else{
+                ProductLocation::where('id', '!=', $pl['id'])
+                ->where('location_id','=',$location_id)
+                    ->where('rank','>=',$pl['rank'])
+                    ->where('rank','<',$old_rank)
+                    ->increment('rank',1);
+
+                    
+            } 
+
+        
+
+        }
+
+    }
+
+
+    public function delete_from_location($product_id,$location_id){
+        $pl = ProductLocation::where('product_id','=',$product_id)
+                            ->where('location_id','=',$location_id)->first();
+
+        ProductLocation::where('location_id','=',$location_id)
+        ->where('id','<>',$pl['id'])
+        ->where('rank','>=',$pl['rank'])
+        ->decrement('rank',1);
+
+        $pl->delete();
+    }
+
 }

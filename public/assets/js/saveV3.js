@@ -71,3 +71,13 @@ async function save(formData,route,formID,btn,reload) {
         }
     });
 }
+
+
+async function show_data(link,div){
+
+    $.get( link, function( data ) {
+    $('#'+div).html(data);
+    
+    });
+    
+    }

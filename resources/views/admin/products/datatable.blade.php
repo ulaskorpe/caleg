@@ -32,6 +32,7 @@
                 <th scope="col">Ürün Adı</th>
 
                 <th scope="col">Kategoriler</th>
+                <th scope="col">Materials</th>
 
 
                 <th scope="col">#</th>
@@ -55,6 +56,11 @@
 
                 </td>
                 <td>
+                   @foreach($product->materials()->get() as $mat)
+                        {{$mat['name']}} <br>
+                        @endforeach
+                    </td>
+                <td>
                     <button type="button" class="btn btn-primary" onclick="window.open('{{route('admin.products.edit',$product['slug'])}}','_self')"><i class="fa-solid fa-pen-to-square"></i></button>
                     <button type="button" class="btn btn-danger" onclick="delete_product({{$product['id']}},{{$page}})"><i class="fa-solid fa-trash-can"></i></button>
                 </td>
@@ -64,4 +70,4 @@
               <tr><td colspan="5">    @include("admin.products.product_comment_pagination")</td></tr>
             </tbody>
           </table>
- 
+

@@ -15,6 +15,6 @@ class Comment extends Model
 
 
     public function product(){
-        return  $this->hasOne(Products::class,'id');
+        return  $this->belongsTo(Products::class);
     }
 }

@@ -10,7 +10,8 @@ class Products extends Model
 {
     use HasFactory;
     protected $connection = 'mysql';
-    protected $fillable = ['slug', 'name', 'title', 'description', 'thumbnail', 'photo', 'category_id', 'type_id', 'price', 'status', 'views', 'language_id','location','order'];
+    
+    protected $fillable = ['slug', 'name', 'title', 'description', 'thumbnail', 'photo', 'category_id', 'type_id','material_id', 'price', 'status', 'views', 'language_id','location','order'];
 
     protected $table = 'products';
     protected $casts = [
@@ -29,7 +30,7 @@ class Products extends Model
 
     public function locations()
     {
-        return $this->belongsToMany(Material::class, 'product_location', 'product_id', 'location_id');
+        return $this->belongsToMany(Location::class, 'product_location', 'product_id', 'location_id');
     }
     public function images(){
         return $this->hasMany(ProductImage::class,'product_id');

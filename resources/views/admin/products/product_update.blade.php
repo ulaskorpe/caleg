@@ -98,8 +98,8 @@
                         </div>
                     </div>
                 </div>
-                <a name="location" onclick="get_location()" href="#location">Location</a>
-                <div id="product_locations"></div>
+               
+             
                 <div class="row mb-3">
                     <div class="col-md-12 mt-5">
                         <div class="row">
@@ -140,6 +140,19 @@
                                     @foreach ($categories as $category)
                                         <option value="{{ $category['id'] }}"  @if(in_array($category['id'],$categories_array)) selected @endif>
                                             {{ $category['name'] }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label
+                                    class="form-label">{{ __('Materials') }}*</label>
+                                <select class="js-example-basic-multiple form-select" id="material_id"
+                                    name="material_id[]" multiple="multiple"
+                                    data-width="100%"  >
+                                    @foreach ($materials as $material)
+                                        <option value="{{ $material['id'] }}" @if(in_array($material['id'],$material_array)) selected @endif>
+                                            {{ $material['name'] }}
                                         </option>
                                     @endforeach
                                 </select>

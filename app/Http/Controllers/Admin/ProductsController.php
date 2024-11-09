@@ -11,7 +11,10 @@ use Yajra\DataTables\DataTables;
 use App\Http\Services\ProductServices;
 use App\Models\Category;
 use App\Models\Comment;
-use App\Models\SiteLocation;
+use App\Models\Material;
+use Illuminate\Support\Facades\DB;
+use App\Models\Location;
+use App\Models\ProductLocation;
 //use App\Models\Sizes;
 use App\Models\Types;
 use Illuminate\Support\Facades\Log;
@@ -38,37 +41,33 @@ class ProductsController extends AdminController
 
     public function comments()
     {
-       return view('admin.products.comments',[ ]);
+       return view('admin.products.comments',['link'=>'admin/products/comments/','div'=>'comments_div' ]);
     }
 
-    public function product_comments($page=0,$product_id=0,$status = 0){
+    public function product_comments($product_id=0 ,$page=0){
 
-        if($status >0){
-            $c = Comment::find($status);
-            $c->status  = ($c['status']==1)?0:1;
-            $c->save();
-
-        }
+// $c = Comment::with('product')->find(1);
+// return $c;
+     
 
         $per_page= 100;
         if($product_id > 0){
             $comments = Comment::where('product_id','=',$product_id)  ;
         }else{
-            $comments = Comment::with('product') ;
+            $comments = Comment::with('product')  ;
         }
+
         $product_count  = $comments->count();
 
+       $comments =  $comments->skip($per_page*$page)->limit(100)->orderBy('created_at','DESC')->get();
 
-
-
-        $comments =  $comments->skip($per_page*$page)->limit(100)->orderBy('created_at','DESC')->get();
 
         $page_count  = ceil($product_count/$per_page);
+ 
 
-
-
-
-        $data = ['page_count'=>$page_count,'comments'=>$comments,'page'=>$page];
+        $data = ['page_count'=>$page_count,'comments'=>$comments,'page'=>$page,'product_id'=>$product_id
+        
+        ];
 
 
         return view('admin.products.product_comments',$data);
@@ -104,8 +103,8 @@ class ProductsController extends AdminController
 
            $product_count  = $products->count();
 
-         
- 
+
+
            $page_count  = ceil($product_count/$per_page);
          $products =  $products->skip($per_page*$page)->limit(100)->orderBy('id','DESC')->get();
 
@@ -114,7 +113,7 @@ class ProductsController extends AdminController
 
 
 
-      
+
 
            return view('admin.products.datatable',$data);//
 
@@ -183,6 +182,29 @@ class ProductsController extends AdminController
         }
     }
 
+    public function delete_comment($comment_id ,$status ){
+        try{
+        $c = Comment::find($comment_id);
+
+
+            if($status == 3){
+                $c->delete();
+                $msg = 'deleted';
+            }else{
+                $msg = 'status changed';
+            $c->status  = $status;
+             $c->save();
+            }
+
+
+        return  $this->success([''], $msg ,200);
+    }catch(Exception $e){
+        //Log::channel('data_check')->info($user->email.":".$txt);
+      //  Log::channel('data_check')->info($e->getMessage());
+        return  $this->error([''], $e->getMessage() ,500);
+    }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -211,6 +233,7 @@ class ProductsController extends AdminController
         $data['submit_form']  = false;
 
         $data['categories'] = Category::all(); //$this->categories;
+        $data['materials'] = Material::all(); //$this->categories;
         return view('admin.products.create', $data);
     }
 
@@ -256,15 +279,7 @@ class ProductsController extends AdminController
         }
     }
 
-    public function location_order($location='',$product_id=0){
-        $count = 0;
-        if($location !=''){
-            $count = Products::where('location','=',$location)->count();
-            $count =  ($product_id==0) ? ( (!empty($count))?$count : 2) : ( (!empty($count))?$count : 1) ;
-        }
-
-        return view('admin.products.order_div',['location'=>$location,'last'=>$count]);
-    }
+ 
 
     public function update(Request $request){
 
@@ -430,8 +445,7 @@ class ProductsController extends AdminController
             // ])->validate();
 
             $data['product'] = Products::where('slug', $product_slug)->first();
-
-
+ 
          //   $product_location = SiteLocation::where('product_id','=',$data['product']['id'])->first();
 
                 $data['selected_location']=((!empty($product_location)))?$product_location['location']:'';
@@ -440,12 +454,14 @@ class ProductsController extends AdminController
 
             $data['types'] = Types::all(); //$this->types;
             $data['categories'] = Category::all(); //$this->categories;
+            $data['materials'] = Material::all();
             $data['slug'] = $product_slug;
           //  $data['files'] = $this->getProductFiles($product_slug);
             $data['submit_form']  = false;
             $data['types_array'] = explode(',',$data['product']['type_id']);
             $data['categories_array'] = explode(',',$data['product']['category_id']);
-
+            $data['material_array'] = explode(',',$data['product']['material_id']);
+           
 
             //$data['type_array'] = explode(",",$data['product']['type_id']);
            return view('admin.products.edit', $data);
@@ -568,30 +584,73 @@ class ProductsController extends AdminController
     }
 
 
-    public function product_locations($id , $location="",$order=0){
+    public function product_locations($product_id , $location_id=0,$order=0){
+       
+        ///echo $location_id.":".$order;
+        $locations = Location::with('products')->where('show','=',1)->where('has_products','=',1)->orderBy('rank')->get();
 
-        $locations = ['top' ,'middle' ,'bottom' ];
-        $plus = 1;
-
-        $order = 0;
-        $product = Products::find($id);
-
-        if($location !="none"){
-
-        if(!empty($product['location']) && $location == $product['location']){
-
-            $location = $product['location'];
-            $order = $product['order'];
-            $plus = 0;
+        if($location_id>0 ){
+            if($order ==0){
+               $this->service->delete_from_location($product_id,$location_id);
+            }else{
+                $this->service->order_location($product_id,$location_id,$order);
+            }
 
         }
-     }
 
+        $orders = ProductLocation::where('product_id','=',$product_id)->get();
 
-        $count = (in_array($location,$locations) )  ? (Products::where('location','=',$location)->count())+$plus : 0 ;
+        $order_array = [];
+        foreach($orders as $o){
+            $order_array[$o['location_id']] = $o['rank'];
+        }
+        $location_array = [];
+        foreach($locations as $location){
+            $order = (!empty($order_array[$location['id']]))?$order_array[$location['id']]:0;
+            $location_array[] = [
+                'name'=>$location['name'],
+                'title'=>$location['title'],
+                'location_rank'=>$location['rank'],
+                'id'=>$location['id'],
+                'count'=>$location->products()->count(),
+                'order'=>$order,
+            ];
+        }
 
-        return  view('admin.products.product_location',['locations'=>$locations,'selected_location'=>$location,'count'=>$count,'order'=>$order]);
+    
+        
+     
+ 
+       return  view('admin.products.product_location',['locations'=>$location_array]);
 
     }
 
+
+    public function update_comment($comment_id,$page,$product_id=0){
+            return view('admin.products.comment_update',['comment'=>Comment::find($comment_id)
+            ,'page'=>$page,'submit_form'=>false,'product_id'=>$product_id]);
+
+    }
+
+    public function update_comment_post(Request $request){
+        try{
+                $c = Comment::find($request['id']);
+                $c->title=$request['title'];
+                $c->comment=$request['comment'];
+                $c->status=(!empty($request['status']))?1:0;
+                $c->save();
+
+
+            return response()->json([
+                "status" => true,
+                "message" => __('Comment updated Successfully')
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                "status" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+
+    }
 }

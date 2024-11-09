@@ -6,7 +6,7 @@
     <table class="table table-bordered">
 
         <thead>
-            <tr><td colspan="5">    @include("admin.products.product_comment_pagination")</td></tr>
+            <tr><td colspan="5">    @include("admin.partials.pagination")</td></tr>
           <tr>
             <th scope="col">Key</th>
             <th scope="col">Value/th>

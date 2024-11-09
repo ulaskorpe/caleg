@@ -1,3 +1,83 @@
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link   active  " id="simple-tab-0" data-bs-toggle="tab" href="#simple-tabpanel-0" role="tab" aria-controls="simple-tabpanel-0" aria-selected="true">Product Info</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" onclick="show_data('/admin/products/comments/'+0+'/{{$product['id']}}','comment_list')" id="simple-tab-1" data-bs-toggle="tab" href="#simple-tabpanel-1" role="tab" aria-controls="simple-tabpanel-1" aria-selected="false">Product Comments</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" onclick="get_location(0,0)"  id="simple-tab-2" data-bs-toggle="tab" href="#simple-tabpanel-2" role="tab" aria-controls="simple-tabpanel-2" aria-selected="false">Product Locatdddions</a>
+      </li>
+  </ul>
+  <div class="tab-content pt-5" id="tab-content">
+    <div class="tab-pane active " id="simple-tabpanel-0" role="tabpanel" aria-labelledby="simple-tab-0">
+
+
+
+            @include("admin.products.product_update")
+    </div>
+    <div class="tab-pane " id="simple-tabpanel-1" role="tabpanel" aria-labelledby="simple-tab-1">
+        <div id="comment_list"></div>
+    </div>
+    <div class="tab-pane " id="simple-tabpanel-2" role="tabpanel" aria-labelledby="simple-tab-2">
+        <div id="product_locations"></div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row mb-3"  >
+
+    <div class="col-md-3 align-items-center justify-content-center">
+        <label class="form-label">{{ __('Konum') }}  {{$selected_location}} </label>
+        <select name="location" id="location" class="form-control" onchange="get_location(this.value)">
+            <option value="none">Seçiniz</option>
+            @foreach ($locations as  $value)
+            <option valıue="{{$value}}" @if($selected_location==$value) selected @endif >  {{$value}}</option>
+        @endforeach
+        </select>
+
+
+
+    </div>
+    <div class="col-md-3 align-items-center justify-content-center">
+        <label class="form-label">{{ __('Sıra') }}  </label>
+        <select name="order" id="order" class="form-control" @if($count == 0) disabled @endif>
+
+            @for( $i = $count ; $i>0;$i--)
+            <option value="{{$i}}" @if($order==$i) selected @endif>{{$i}}</option>
+
+            @endfor
+        </select>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
 @extends('admin.layouts.master')
 @section('title', __('Edit Product'))
 @section('styles')

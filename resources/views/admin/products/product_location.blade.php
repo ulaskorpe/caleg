@@ -1,28 +1,45 @@
-<div class="row mb-3"  >
-
-    <div class="col-md-3 align-items-center justify-content-center">
-        <label class="form-label">{{ __('Konum') }}  {{$selected_location}} </label>
-        <select name="location" id="location" class="form-control" onchange="get_location(this.value)">
-            <option value="none">Seçiniz</option>
-            @foreach ($locations as  $value)
-            <option valıue="{{$value}}" @if($selected_location==$value) selected @endif >  {{$value}}</option>
-        @endforeach
-        </select>
-
-
-
-    </div>
-    <div class="col-md-3 align-items-center justify-content-center">
-        <label class="form-label">{{ __('Sıra') }}  </label>
-        <select name="order" id="order" class="form-control" @if($count == 0) disabled @endif>
-
-            @for( $i = $count ; $i>0;$i--)
-            <option value="{{$i}}" @if($order==$i) selected @endif>{{$i}}</option>
-
-            @endfor
-        </select>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Location Name</th>
+        <th scope="col"></th>
+        <th scope="col">Located on</th>
+      </tr>
+    </thead>
+    <tbody>
+        @foreach($locations as $location)
+      <tr>
+        <th scope="row">{{$location['location_rank']}}</th>
+        <td>{{ $location['name'] }}</td>
+        <td>@if($location['order']>0)  <a href="#" onclick="delete_from_location({{$location['id']}})">Remove from {{$location['order']}}</a> @endif</td>
+        <td>
 
 
+            <select name="order{{$location['id']}}" id="order{{$location['id']}}" class="form-control" onchange="get_location({{$location['id']}},this.value)">
+                @if($location['order']==0)
+                <option value="0" disabled selected>Select To Locate</option>
+                      @for($i=$location['count']+1; $i>0;  $i--)
+                        <option value="{{$i}}" > {{ $i}} </option>
+                        @endfor
+        
+                    @else 
+        
+                     
+                    @for($i=$location['count']; $i>0 ;  $i--)
+                         <option value="{{$i}}" @if($location['order']==$i) selected @endif> {{ $i}} </option>
+                     @endfor
+                      
+                @endif
+        
+              
+            </select>
 
-    </div>
-</div>
+        </td>
+      </tr>
+      @endforeach
+ 
+    </tbody>
+  </table>
+ 
+ 

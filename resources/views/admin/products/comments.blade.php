@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', __('Categories'))
+@section('title', __('Product Comments'))
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/admin/vendors/datatables.net-bs5/dataTables.bootstrap5.css') }}">
     <style>
@@ -49,6 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="btn-area text-right justify-center"> </div>
+                                
                                 <div class="table-responsive" id="comment_list" name="comment_list"> </div>
 
 
@@ -67,56 +68,17 @@
     </div>
 @endsection
 @section('scripts')
-
+<script src="{{ asset('assets/js/saveV3.js') }}"></script>
+<script src="{{ asset('assets/js/product_comments.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
 $( document ).ready(function() {
 
-    show_data(0)
+   show_data('/admin/products/comments/0/0','comment_list');
 });
 
-async function delete_comment(comment_id,page){
-    Swal.fire({
-            title: 'yorum silinecek, eminmisiniz'+page,
-
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Evet!',
-            cancelButtonText: 'Hayır'
-        }).then((result) => {
-            // If confirmed
-            if (result.isConfirmed) {
-                $.get('/admin/products/comment/delete/'+comment_id,  // url
-
-                    function (data) {  // success callback
-                        Swal.fire({
-                        icon: (data.status) ? 'success': 'error',
-                        text: data.message
-                    });
-         // alert('status: ' + textStatus + ', data:' + data);
-                });
-
-                setTimeout(() => {
-                        show_data(page);
-                }, 2000);
-                   /// $('#logout-form').submit();
-            }
-        });
-}
-
-async function show_data(page=0 ){
-
-    let txt ="/admin/products/comments/"+page ;
-
-    console.log(txt);
-$.get( txt, function( data ) {
-   $('#comment_list').html(data);
-
-});
-
-}
 
 
+ 
     </script>
 @endsection

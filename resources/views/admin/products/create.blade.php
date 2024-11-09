@@ -172,27 +172,17 @@
 
 
                                                                 <div class="col-6">
-                                                                    <label class="form-label">{{ __('Location') }}*</label>
-                                                                    <select class="form-select" id="location" onchange="selectOrder()"
-                                                                        name="location"
+                                                                    <label
+                                                                        class="form-label">{{ __('Materials') }}*</label>
+                                                                    <select class="js-example-basic-multiple form-select" id="material_id"
+                                                                        name="material_id[]" multiple="multiple"
                                                                         data-width="100%"  >
-                                                                      <option value="0">Seçiniz</option>
-                                                                      <option value="top">Top</option>
-                                                                      <option value="middle">Middle</option>
-                                                                      <option value="bottom">Bottom</option>
+                                                                        @foreach ($materials as $material)
+                                                                            <option value="{{ $material['id'] }}">
+                                                                                {{ $material['name'] }}
+                                                                            </option>
+                                                                        @endforeach
                                                                     </select>
-                                                                </div>
-
-                                                                <div class="col-6">
-                                                                    <label class="form-label">{{ __('Order') }}*</label>
-                                                                    <span id="order_div">
-                                                                    <select class="form-select" id="order" disabled
-                                                                        name="order"
-                                                                        data-width="100%"  >
-                                                                      <option value="0">Seçiniz</option>
-
-                                                                    </select>
-                                                                </span>
                                                                 </div>
 
                                                             </div>
@@ -384,6 +374,17 @@ error = true;
 return false;
 }
 
+if ($('#material_id').val() === null || $('#material_id').val().length === 0)  {
+
+$('#material_id').focus();
+Swal.fire({
+    icon: 'error',
+    text: 'ürün için material seçiniz'
+});
+
+error = true;
+return false;
+}
 
 if ($('#tinymceExample').val() =='') {
 

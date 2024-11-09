@@ -53,14 +53,14 @@ Route::group(['middleware' => $middlewares, 'prefix' => $prefix, 'as' => $define
 		Route::get('dashboard', 'dashboard')->name('dashboard');
 
 		Route::get('settings/web-settings/check-key/{key?}/{id?}', 'checkKey')->name('general.settings.check.key');
-		
+
 		Route::get('settings/web-settings/locations', 'generalLocations')->name('general.locations');
 		Route::get('settings/web-settings/locations/title/{id}/{title}', 'locationTitle')->name('general.locations.title');
 		Route::get('settings/web-settings/locations/show/{id}', 'locationShow')->name('general.locations.show');
 		Route::get('settings/web-settings/locations/has_products/{id}', 'locationHasProducts')->name('general.locations.has_products');
 		Route::get('settings/web-settings/locations/rank/{id}/{rank}', 'locationChangeRank')->name('general.locations.change_rank');
 		Route::get('settings/web-settings/locations-list', 'generalLocationsList')->name('general.locations.list');
-		
+
 		Route::get('settings/web-settings/general', 'generalSettings')->name('general.settings');
 		Route::get('settings/web-settings/general-list/{page?}', 'generalSettingsList')->name('general.settings.list');
 		Route::get('settings/web-settings/create-setting', 'createSetting')->name('general.settings.create');
@@ -68,7 +68,7 @@ Route::group(['middleware' => $middlewares, 'prefix' => $prefix, 'as' => $define
 
 		Route::get('settings/web-settings/update-setting/{id}', 'updateSetting')->name('general.settings.update');
 		Route::get('settings/web-settings/delete-setting/{id}', 'deleteSetting')->name('general.settings.delete');
- 
+
 
 		Route::get('settings/email-settings/smtp', 'emailSMTP')->name('smtp.settings');
 		Route::get('settings/email-settings/pending-mails', 'emailJobs')->name('email.jobs');
@@ -156,7 +156,7 @@ Route::group(['middleware' => $middlewares, 'prefix' => $prefix, 'as' => $define
 		Route::post('categories/update/category/{slug}', 'update')->name('category.update');
 	});
 
-
+	
 	Route::controller(SizesController::class)->group(function () {
 
 		Route::resource('sizes', SizesController::class);
@@ -175,12 +175,15 @@ Route::group(['middleware' => $middlewares, 'prefix' => $prefix, 'as' => $define
  Route::resource('products', ProductsController::class);
 
 		Route::get('products/comments/list/all', 'comments')->name('product.comments.all');
-		Route::get('products/comments/{page?}/{product_id?}/{status?}', 'product_comments')->name('product.comments');
+		Route::get('products/comments/{product_id?}/{page?}', 'product_comments')->name('product.comments');
+		Route::get('products/comments/delete/{comment_id}/{status}', 'delete_comment')->name('product.comments.delete');
+		Route::get('products/comments-update/{comment_id}/{page}/{product_id?}', 'update_comment')->name('product.comments.update');
+		Route::post('products/comments/update', 'update_comment_post')->name('product.comments.update.post');
 		Route::get('products/location/{location?}/{product_id?}', 'location_order')->name('location.order');
 		Route::get('products/delete/{product_id}', 'destroy')->name('product.delete');
 		Route::get('products/list/{page?}/{keyword?}/{type?}/{category?}', 'product_list')->name('products.list');
 		Route::get('products/datables/list', 'datatables')->name('products.datatables');
-		Route::get('products/locations/{id}/{location?}/{order?}', 'product_locations')->name('products.locations');
+		Route::get('products/locations/{product_id}/{location_id?}/{order?}', 'product_locations')->name('products.locations');
 		Route::get('products/images/{slug}/{id?}', 'getProductFiles')->name('products.getProductFiles');
 		Route::get('products/check-slug/{slug}/{id?}',[ProductsController::class,'check_slug'] )->name('products.check_slug');
 		Route::get('products/{slug}/edit',  [ProductsController::class,'edit'])->name('products.datatables');
